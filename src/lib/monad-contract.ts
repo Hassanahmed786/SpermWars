@@ -13,8 +13,13 @@ export function makeMatchGameId(roomId: string): `0x${string}` {
   const value = (roomId || "").trim();
   if (!value) throw new Error("Room ID is required for a match game ID");
   if (isHex(value) && value.length === 66) return value as `0x${string}`;
-  const hashed = keccak256(toHex(value)) as string;
+  const normalized = value.startsWith("0x") ? value : value.toString();
+  const hashed = keccak256(toHex(normalized)) as string;
   return hashed as `0x${string}`;
+}
+
+export function isContractConfigured(address?: string | null): boolean {
+  return !!address && address !== "0x0000000000000000000000000000000000000000" && /^0x[a-fA-F0-9]{40}$/.test(address);
 }
 
 // Simplified ABI for the SpermWarsMonad contract

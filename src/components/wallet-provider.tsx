@@ -10,7 +10,7 @@ import { MONAD, shortAddress as fmtShort, txExplorerUrl, addressExplorerUrl } fr
 import { useToast } from "./toast";
 import { audio } from "@/lib/audio";
 import WalletModal from "./wallet-modal";
-import { CONTRACT_ADDRESS, SPERM_WARS_ABI, makeMatchGameId } from "@/lib/monad-contract";
+import { CONTRACT_ADDRESS, SPERM_WARS_ABI, isContractConfigured, makeMatchGameId } from "@/lib/monad-contract";
 import { encodeFunctionData } from "viem";
 
 export type ConnStatus = "disconnected" | "connecting" | "connected" | "demo";
@@ -332,7 +332,19 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       return { ok: false, error: "insufficient" };
     }
 
-    const normalizedGameId = makeMatchGameId(gameId);
+    if (!isContractConfigured(CONTRACT_ADDRESS)) {
+      toast.push({ kind: "error", title: "Contract not configured", message: "Set NEXT_PUBLIC_CONTRACT_ADDRESS in your environment", duration: 6000 });
+      return { ok: false, error: "contract_missing" };
+    }
+
+    let normalizedGameId: `0x${string}`;
+    try {
+      normalizedGameId = makeMatchGameId(gameId);
+    } catch (err) {
+      toast.push({ kind: "error", title: "Invalid match room", message: err instanceof Error ? err.message : "Could not prepare match ID", duration: 5000 });
+      return { ok: false, error: "invalid_room" };
+    }
+
     const data = encodeFunctionData({
       abi: SPERM_WARS_ABI,
       functionName: "stakeMatch",
