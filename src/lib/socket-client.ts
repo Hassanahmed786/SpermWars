@@ -37,7 +37,9 @@ let socket: Socket | null = null;
 
 export function getSocket(): Socket {
   if (!socket) {
-    const url = process.env.NEXT_PUBLIC_BACKEND_URL || "";
+    const rawUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://spermwars.onrender.com";
+    const url = rawUrl.replace(/\/$/, "");
+
     socket = io(url, {
       path: "/api/socketio",
       transports: ["websocket", "polling"],
