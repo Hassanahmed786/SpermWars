@@ -9,8 +9,12 @@ export const MONAD_TESTNET_EXPLORER = "https://testnet.monadexplorer.com";
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}` || "0x0000000000000000000000000000000000000000";
 
 export function makeMatchGameId(roomId: string): `0x${string}` {
-  const { keccak256, toHex } = require("viem");
-  return keccak256(toHex(roomId));
+  const { keccak256, toHex, isHex } = require("viem");
+  const value = (roomId || "").trim();
+  if (!value) throw new Error("Room ID is required for a match game ID");
+  if (isHex(value) && value.length === 66) return value as `0x${string}`;
+  const hashed = keccak256(toHex(value)) as string;
+  return hashed as `0x${string}`;
 }
 
 // Simplified ABI for the SpermWarsMonad contract

@@ -10,7 +10,7 @@ import { MONAD, shortAddress as fmtShort, txExplorerUrl, addressExplorerUrl } fr
 import { useToast } from "./toast";
 import { audio } from "@/lib/audio";
 import WalletModal from "./wallet-modal";
-import { CONTRACT_ADDRESS, SPERM_WARS_ABI } from "@/lib/monad-contract";
+import { CONTRACT_ADDRESS, SPERM_WARS_ABI, makeMatchGameId } from "@/lib/monad-contract";
 import { encodeFunctionData } from "viem";
 
 export type ConnStatus = "disconnected" | "connecting" | "connected" | "demo";
@@ -332,10 +332,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       return { ok: false, error: "insufficient" };
     }
 
+    const normalizedGameId = makeMatchGameId(gameId);
     const data = encodeFunctionData({
       abi: SPERM_WARS_ABI,
       functionName: "stakeMatch",
-      args: [gameId as `0x${string}`],
+      args: [normalizedGameId],
     });
 
     const pending = toast.push({ kind: "pending", title: `${label} pending…`, message: "Confirm in your wallet", duration: 0 });
