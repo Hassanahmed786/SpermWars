@@ -1,6 +1,6 @@
 # 🧬 Sperm Wars — Monad Edition
 
-A cinematic, wallet-powered multiplayer arcade game built for Monad Testnet. Sperm Wars blends a polished browser experience with real blockchain interactions, a Socket.IO multiplayer backend, match staking, NFT minting, and fast-play game loops designed for hackathon demos and production-style deployment.
+A cinematic, wallet-powered multiplayer arcade game built for Monad Testnet. Sperm Wars blends a polished browser experience with real blockchain interactions, a Socket.IO multiplayer backend, match staking, NFT minting.
 
 ## Live project links
 - Live frontend: https://spermwars.vercel.app/
@@ -25,7 +25,6 @@ Sperm Wars is a multiplayer web3 game prototype with:
 - NFT minting with generated token metadata
 - ready-made deployment architecture for Vercel + Render
 
-The project is designed to feel like a real product demo while staying practical enough for deployment, testing, and iteration.
 
 ---
 
