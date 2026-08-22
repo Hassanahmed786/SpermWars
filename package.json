@@ -25,6 +25,7 @@
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
     "tailwindcss": "4.1.17",
+    "tsx": "^4.23.12",
     "viem": "^2.55.19",
     "wagmi": "^3.7.6",
     "zustand": "^5.0.15"
