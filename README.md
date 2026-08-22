@@ -1,64 +1,176 @@
 # 🧬 Sperm Wars — Monad Edition
 
-A fast, arcade-style multiplayer game built for the Monad ecosystem. The project combines a polished web game, real on-chain wallet interaction, NFT minting, and a live multiplayer lobby backed by Socket.IO. It is designed to be presentation-ready for a hackathon, strong enough for local demos, and structured for real deployment to Vercel + a persistent Node backend.
+A cinematic, wallet-powered multiplayer arcade game built for Monad Testnet. Sperm Wars blends a polished browser experience with real blockchain interactions, a Socket.IO multiplayer backend, match staking, NFT minting, and fast-play game loops designed for hackathon demos and production-style deployment.
 
-## Live status
-- Frontend app: Next.js 16 + TypeScript + App Router
-- Backend: custom Socket.IO server via `server.ts`
-- Smart contracts: Solidity + Hardhat
-- Wallet: MetaMask / Phantom / injected EVM wallets
-- Testnet: Monad Testnet
-- Current deployed contracts:
-  - Game contract: `0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43`
-  - NFT contract: `0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b`
+## Live project links
+- Live frontend: https://spermwars.vercel.app/
+- Live multiplayer backend: https://spermwars.onrender.com
+- GitHub repo: https://github.com/Hassanahmed786/SpermWars
+- Monad explorer: https://testnet.monadexplorer.com
+- Game contract: https://testnet.monadexplorer.com/address/0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43
+- NFT contract: https://testnet.monadexplorer.com/address/0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b
 
----
-
-## Why this project matters
-Sperm Wars is not just a mini-game. It demonstrates the full stack of a modern on-chain game idea:
-- real wallet connectivity on Monad
-- user-chosen staking and match coordination
-- NFT minting with randomized traits and power points
-- server-backed multiplayer rooms
-- on-chain contract hooks for game results and payouts
-
-The project is built to show that a browser game can feel polished while still being genuinely connected to blockchain logic and a persistent multiplayer backend.
+## Deployed contract addresses
+- Game contract: `0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43`
+- NFT contract: `0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b`
 
 ---
 
-## Core product overview
+## What this app is
+Sperm Wars is a multiplayer web3 game prototype with:
+- fast arcade gameplay
+- realtime room-based multiplayer
+- wallet-based MON staking and match pots
+- on-chain contract integration for staking and results
+- NFT minting with generated token metadata
+- ready-made deployment architecture for Vercel + Render
 
-### Games included
-1. Chaos Arena
-   - Top-down 8-player survival mode
-   - Competitive movement and hazard avoidance
-   - World events and performance boosts
-   - Built for quick match-based gameplay
-
-2. Sperm Dash
-   - Endless runner / survival-style platform challenge
-   - Hazard dodging and power-up collection
-   - Score + multiplier system
-   - Designed as a second fast-play arcade loop
-
-### Multiplayer features
-- room-based matchmaking and lobby
-- ready-state syncing
-- room code sharing
-- live room updates with Socket.IO
-- match staking for MON via the wallet
-- pot-based play and winner settlement flow prepared for on-chain settlement
-
-### Blockchain features
-- wallet connection and chain switching for Monad
-- on-chain staking into match pots via `stakeMatch`
-- NFT minting via `SpermNFT`
-- randomized token metadata and power-point logic
-- contract-ready reward and settlement integration for the game loop
+The project is designed to feel like a real product demo while staying practical enough for deployment, testing, and iteration.
 
 ---
 
-## File structure
+## Why it stands out
+This project combines several layers that are often kept separate:
+- polished game UI built with Next.js and TypeScript
+- real EVM wallet support for MetaMask / Phantom style injected wallets
+- Monad chain switching and balance checks
+- multiplayer room coordination through Socket.IO
+- match pot mechanics with MON staking
+- on-chain NFT minting with per-token power metadata
+- deployment plan that separates frontend and persistent backend
+
+It is meant to showcase a real-world game product flow: connect wallet, join room, stake MON, start match, and claim or settle rewards.
+
+---
+
+## Feature overview
+
+### 1. Arcade gameplay
+The app includes two playable loops:
+
+#### Chaos Arena
+- competitive survival arena gameplay
+- top-down movement and obstacle avoidance
+- hazard zones and random world events
+- fast reactive action for small multiplayer matches
+
+#### Sperm Dash
+- side-scrolling style endless runner mechanics
+- hazard dodging and power-up collection
+- score seeking and combo-style progression
+- reward-focused gameplay loop with a strong arcade feel
+
+### 2. Multiplayer room system
+- room creation and join flow
+- room code generation and shareable links
+- ready-state toggling before match start
+- host-controlled start flow
+- live room updates through Socket.IO
+- per-player lobby metadata and wallet tags
+
+### 3. Wallet integration
+- MetaMask and injected wallet compatibility
+- network detection and Monad switching
+- balance reads
+- send MON transactions
+- wallet signature confirmations for staking actions
+
+### 4. MON staking and match pot flow
+The app includes a match pot system where players can stake MON before starting a match.
+
+Core logic:
+- a room generates a match ID
+- the room stake is turned into a contract call to `stakeMatch(bytes32)`
+- the pot is tracked on-chain in the Sperm Wars match contract
+- settlement logic can distribute the pot to a winner or split it equally in tie scenarios
+
+The app uses a hashed game ID to convert the room code into a valid 32-byte `bytes32` value, which is required by Solidity.
+
+### 5. NFT minting
+The NFT flow is built as a proof-of-concept for blockchain utility items:
+- randomized token traits
+- rarity and power-point assignment
+- on-chain SVG metadata generation
+- mint flow tied to the connected wallet
+- separate NFT contract from the gameplay contract
+
+### 6. Browser + backend architecture
+The project is split between:
+- a Next.js frontend deployed to Vercel
+- a custom Node + Socket.IO backend deployed to Render
+
+This split is necessary because persistent multiplayer sockets do not behave like regular static frontend deployments.
+
+---
+
+## App architecture
+
+### Frontend
+- Next.js 16
+- React 19
+- TypeScript
+- App Router architecture
+- custom game and lobby components
+- wallet provider abstraction
+
+### Backend
+- Node.js runtime
+- custom `server.ts` launcher
+- Socket.IO event server
+- room lifecycle management
+- real-time lobby updates and match coordination
+
+### Smart contracts
+- Solidity 0.8.20
+- Hardhat deployment pipeline
+- On-chain logic for game result recording and staking
+- ERC-721 NFT contract
+
+### Web3 stack
+- ethers
+- viem
+- injected wallet support
+- Monad Testnet RPC and explorer configuration
+
+---
+
+## Contract summary
+
+### SpermWarsMonad
+Main match and reward contract.
+
+Responsibilities:
+- register players
+- store match data
+- track staking pots
+- settle winner / tie payouts
+- allow reward claims
+
+Key functions:
+- `registerPlayer(string _username)`
+- `recordGameResult(bytes32 _gameId, address _winner, uint8 _playersCount)`
+- `stakeMatch(bytes32 _gameId)` payable
+- `settleMatchPot(bytes32 _gameId, address[] calldata _participants, address _winner)`
+- `claimReward(bytes32 _gameId)`
+
+### SpermNFT
+NFT minting contract.
+
+Responsibilities:
+- mint randomized NFTs
+- assign metadata traits
+- generate on-chain SVG content
+- expose token power metadata
+
+Key functions:
+- `mint(address to)`
+- `ownerMint(address to, uint256 points)`
+- `pointsOf(uint256 tokenId)`
+- `tokenURI(uint256 tokenId)`
+
+---
+
+## Project structure
 
 ```text
 .
@@ -72,184 +184,76 @@ The project is built to show that a browser game can feel polished while still b
 │   ├── app/
 │   ├── components/
 │   ├── data/
-│   └── lib/
+│   ├── lib/
+│   └── ...
 ├── server.ts
 ├── hardhat.config.js
+├── next.config.ts
 ├── package.json
-├── .env.example
-├── .env
+├── postcss.config.mjs
 ├── README.md
-├── test/
-│   └── staking.spec.js
-└── next.config.ts
+├── .env
+├── .gitignore
+└── ...
 ```
 
 ---
 
-## Tech stack
-
-### Frontend
-- Next.js 16
-- TypeScript
-- React 19
-- Tailwind/PostCSS
-- App Router
-
-### Backend
-- Node.js
-- Socket.IO
-- custom server at `server.ts`
-
-### Contracts
-- Solidity 0.8.20
-- Hardhat
-- OpenZeppelin contracts
-
-### Wallet / Web3
-- EIP-1193 injection detection
-- MetaMask and Phantom compatibility
-- ethers v5
-- viem
-
----
-
-## Smart contracts
-
-### 1) `SpermWarsMonad.sol`
-This contract is the main game contract.
-
-Responsibilities:
-- player registration
-- game recordings
-- reward payout logic
-- match staking
-- match pot management
-- settlement logic for winner or tie payouts
-
-Key functions:
-- `registerPlayer(string _username)`
-- `recordGameResult(bytes32 _gameId, address _winner, uint8 _playersCount)`
-- `stakeMatch(bytes32 _gameId)` payable
-- `settleMatchPot(bytes32 _gameId, address[] calldata _participants, address _winner)`
-- `claimReward(bytes32 _gameId)`
-
-Important note:
-- This is implemented for a real game flow and is designed to integrate directly with a persistent backend / game service.
-- The contract uses MON in settlement and staking logic on Monad Testnet.
-
-### 2) `SpermNFT.sol`
-This contract supplies randomized NFTs with on-chain metadata and utility points.
-
-What it does:
-- mints ERC-721 NFTs
-- assigns random rarity, color, and pattern traits
-- assigns power points to each token
-- generates SVG-based metadata in a fully on-chain way
-- supports mint price management and withdrawals
-
-Key functions:
-- `mint(address to)` payable
-- `ownerMint(address to, uint256 points)`
-- `pointsOf(uint256 tokenId)`
-- `tokenURI(uint256 tokenId)`
-
----
-
-## Deployment architecture
-
-This project is built for a split deployment model because live multiplayer needs a persistent Node server.
-
-### Recommended production setup
-- Frontend: Vercel
-- Multiplayer backend: Render or a similar persistent Node host
-- Blockchain: Monad Testnet
-
-This is the safest deployment architecture for a Socket.IO-based game app.
-
-### Why not pure Vercel only?
-Vercel is ideal for the frontend, but WebSockets and long-lived multiplayer sessions are not reliable on a serverless-only configuration. The app includes a custom Socket.IO server at `server.ts`, so a persistent backend is required for multiplayer rooms to remain live.
-
----
-
-## Environment variables
-
-Use the local `.env` file as your base config. The project includes a local `.env` already set for the project environment.
-
-### Required values
-
-```env
-# Monad network
-NEXT_PUBLIC_MONAD_NETWORK=testnet
-NEXT_PUBLIC_MONAD_RPC_URL=https://testnet-rpc.monad.xyz
-NEXT_PUBLIC_MONAD_EXPLORER=https://testnet.monadexplorer.com
-MONAD_RPC_URL=https://testnet-rpc.monad.xyz
-MONAD_CHAINID=10143
-
-# Contract deployment + on-chain app usage
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43
-NEXT_PUBLIC_NFT_ADDRESS=0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b
-NEXT_PUBLIC_NFT_MINT_PRICE=0
-NEXT_PUBLIC_MON_SINK=0x000000000000000000000000000000000000dEaD
-NEXT_PUBLIC_BLAST_COST=0.001
-
-# Deployment keys (server-side only)
-DEPLOYER_KEY=YOUR_PRIVATE_KEY
-CONTRACT_OWNER_KEY=YOUR_PRIVATE_KEY
-
-# Backend
-PORT=3000
-NODE_ENV=production
-NEXT_PUBLIC_BACKEND_URL=
-```
-
-### Important security note
-- Keep private keys server-side only.
-- Never expose the deployer key in a frontend build.
-- Never commit production secret values to public GitHub repositories.
-
----
-
-## Local development
+## Local setup
 
 ### Install dependencies
 ```bash
 npm install
 ```
 
-### Run the app locally
+### Run the multiplayer server locally
 ```bash
 npx tsx server.ts
 ```
 
-This starts the custom Socket.IO server and serves the app at:
+The app will serve from:
 - http://localhost:3000
 
-### Production mode
+### Production style local run
 ```bash
 $env:NODE_ENV='production'; $env:PORT='3000'; npx tsx server.ts
 ```
 
 ---
 
-## Build and verification
+## Required environment values
 
-The project was validated with a production Next.js build.
+```env
+NEXT_PUBLIC_MONAD_NETWORK=testnet
+NEXT_PUBLIC_MONAD_RPC_URL=https://testnet-rpc.monad.xyz
+NEXT_PUBLIC_MONAD_EXPLORER=https://testnet.monadexplorer.com
+MONAD_RPC_URL=https://testnet-rpc.monad.xyz
+MONAD_CHAINID=10143
 
-```bash
-npm run build
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43
+NEXT_PUBLIC_NFT_ADDRESS=0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b
+NEXT_PUBLIC_NFT_MINT_PRICE=0
+NEXT_PUBLIC_MON_SINK=0x000000000000000000000000000000000000dEaD
+NEXT_PUBLIC_BLAST_COST=0.001
+
+DEPLOYER_KEY=YOUR_PRIVATE_KEY
+CONTRACT_OWNER_KEY=YOUR_PRIVATE_KEY
+
+PORT=3000
+NODE_ENV=production
+NEXT_PUBLIC_BACKEND_URL=https://spermwars.onrender.com
 ```
 
-Verified results:
-- Next.js build succeeded
-- TypeScript compile succeeded
-- all routes were generated
-- app is ready for deployment build pipelines
+### Security note
+- Never expose private keys in frontend code or public repos.
+- Keep deployment secrets on the server side only.
+- Use environment variables for all wallet and contract secrets.
 
 ---
 
-## Hardhat deployment steps
+## Hardhat deployment
 
-### Deploy the main game contract
+### Deploy the main contract
 ```bash
 npx hardhat run scripts/deploy.js --network monad
 ```
@@ -259,22 +263,23 @@ npx hardhat run scripts/deploy.js --network monad
 npx hardhat run scripts/deploy-nft.js --network monad
 ```
 
-### Contract addresses used in this project
-- Game contract: `0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43`
-- NFT contract: `0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b`
+### Update the app config after deployment
+Once deployed, update the following env values with the new addresses:
+- `NEXT_PUBLIC_CONTRACT_ADDRESS`
+- `NEXT_PUBLIC_NFT_ADDRESS`
 
 ---
 
-## Vercel deployment steps
+## Frontend deployment (Vercel)
 
-1. Push the repo to GitHub.
-2. Go to Vercel.
-3. Import the repo.
-4. Use default Next.js build settings.
-5. Add environment variables listed above.
-6. Deploy.
+1. Push the project to GitHub.
+2. Open Vercel.
+3. Import the repository.
+4. Use the default Next.js project settings.
+5. Add the frontend env variables.
+6. Deploy the project.
 
-### Frontend envs for Vercel
+### Vercel env example
 ```env
 NEXT_PUBLIC_MONAD_NETWORK=testnet
 NEXT_PUBLIC_MONAD_RPC_URL=https://testnet-rpc.monad.xyz
@@ -284,104 +289,94 @@ NEXT_PUBLIC_NFT_ADDRESS=0x2B0d0bC803C5EC7c6fd9AaE163696228EC4f2c2b
 NEXT_PUBLIC_NFT_MINT_PRICE=0
 NEXT_PUBLIC_MON_SINK=0x000000000000000000000000000000000000dEaD
 NEXT_PUBLIC_BLAST_COST=0.001
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=
-NEXT_PUBLIC_BACKEND_URL=https://YOUR_RENDER_URL
+NEXT_PUBLIC_BACKEND_URL=https://spermwars.onrender.com
 ```
 
 ---
 
-## Render deployment steps for multiplayer backend
+## Multiplayer backend deployment (Render)
 
-1. Sign in to Render.
-2. Create a new Web Service.
-3. Connect the GitHub repo.
-4. Set the build command:
+1. Create a new Render Web Service.
+2. Connect the GitHub repo.
+3. Set the build command:
 ```bash
-npm install
+npm install; npm run build
 ```
-5. Set the start command:
+4. Set the start command:
 ```bash
-npx tsx server.ts
+npm run start
 ```
-6. Add environment variables:
+5. Add server environment variables:
 ```env
 PORT=3000
 NODE_ENV=production
 MONAD_RPC_URL=https://testnet-rpc.monad.xyz
 MONAD_CHAINID=10143
-NEXT_PUBLIC_MONAD_RPC_URL=https://testnet-rpc.monad.xyz
-NEXT_PUBLIC_MONAD_EXPLORER=https://testnet.monadexplorer.com
 NEXT_PUBLIC_CONTRACT_ADDRESS=0x8646813ef56cEDAc8D2e5bCe05B26cD17729Fb43
 CONTRACT_OWNER_KEY=YOUR_PRIVATE_KEY
 ```
-7. Copy the Render URL and put it into `NEXT_PUBLIC_BACKEND_URL` on Vercel.
-8. Redeploy the frontend.
+6. Deploy and copy the live Render URL.
+7. Put the Render URL into `NEXT_PUBLIC_BACKEND_URL` on Vercel.
 
 ---
 
-## Multiplayer logic summary
+## Example production flow
 
-The multiplayer flow is powered by:
-- Socket.IO event-driven rooms
-- room creation and joining
-- player readiness tracking
-- host controlled start events
-- state synchronization for match start and result handling
-
-This allows the app to keep rooms stable while the actual game loop remains accessible via a browser-friendly multiplayer interface.
-
----
-
-## Staking and match pot logic
-
-The contract includes MON staking for match pot mechanics.
-
-### Flow
-- players stake MON into a room-specific match pot
-- a room or match gets a unique game ID
-- winner settlement can distribute the entire pot to one winner
-- in tie situations the contract can split the pot evenly between participants
-
-This setup is designed to show a production-style match-sharing mechanic that a game publisher could extend for tournaments and event-based payouts.
+1. User visits the Vercel app.
+2. User connects wallet on Monad Testnet.
+3. User creates or joins a room.
+4. User stakes MON into the match pot.
+5. Room host starts the match.
+6. Players ready up and compete.
+7. Winner settlement is processed through the contract logic.
+8. NFT minting can be used separately for collectible progression.
 
 ---
 
-## NFT minting description
+## Deployment architecture summary
 
-The NFT page lets a connected wallet mint a randomized Sperm NFT.
+### Recommended final architecture
+- Frontend: Vercel
+- Backend: Render
+- Wallets: MetaMask / injected EVM wallets
+- Chain: Monad Testnet
+- Smart contracts: Hardhat-managed
 
-Each token includes:
-- rarity
-- color palette slot
-- pattern type
-- power points
-
-The NFT metadata is generated on-chain and stored as base64 data URIs, so no external metadata server is required.
-
----
-
-## Product positioning
-
-This project sits at the intersection of:
-- arcade game design
-- real blockchain onboarding
-- wallet-first user interaction
-- multiplayer session management
-- on-chain reward and staking logic
-
-It was designed to feel like a game prototype that is credible enough for a hackathon or early demo, but also complete enough to serve as a foundation for a real product roadmap.
+This architecture ensures the app can remain user-friendly while still supporting real blockchain and realtime multiplayer interactions.
 
 ---
 
-## Hackathon judge summary
+## Troubleshooting
 
-Sperm Wars demonstrates:
-- end-to-end product vision
-- functional blockchain integration
-- UX quality and game polish
-- multiplayer architecture thinking
-- deployment readiness and production awareness
-- ability to bundle real web3 mechanics into an interactive game experience
+### WebSocket connection fails
+- Check that the backend is listening on the deployed Render service
+- Confirm the start command is `npm run start`
+- Confirm `NEXT_PUBLIC_BACKEND_URL` is set to the live Render URL
+- Confirm the backend CORS allowlist includes the Vercel domain
+
+### Smart contract call reverts
+- Ensure wallet is on Monad Testnet
+- Confirm the contract address is correct
+- Confirm the function you are calling exists in the deployed contract
+- Check whether the room ID is hashed correctly before sending as `bytes32`
+
+### Build fails on Render
+- Make sure `tsx` is included in dependencies
+- Use `npm install; npm run build` as the build command
+- Keep `npm run start` as the runtime command for the custom server
+
+---
+
+## Product positioning and hackathon value
+
+Sperm Wars is positioned as an on-chain game prototype that demonstrates:
+- strong UX and visual design
+- practical blockchain usage
+- live multiplayer infrastructure
+- game product thinking beyond static NFT demos
+- an end-to-end app stack ready for a full demo or startup pitch
+
+This app is not only a game; it is a blueprint for a multiplayer web3 arcade product.
 
 ---
 
@@ -390,11 +385,12 @@ MIT
 
 ---
 
-## Contact / next steps
-For production use, the project should be configured with:
-- a funded Monad wallet for deployment and gas
-- a secure backend private key for server-side contract interactions
-- a live Render or hosted backend for multiplayer networking
-- a Vercel frontend for the browser experience
+## Final note
+This README is intended to serve as a judge-facing reference, deployment guide, and technical handoff document for the project.
 
-This README is intended to serve as the primary reference document for judges, deployment managers, and future maintainers.
+The app is live at:
+- Frontend: https://spermwars.vercel.app/
+- Backend: https://spermwars.onrender.com
+
+The repo is available here:
+- https://github.com/Hassanahmed786/SpermWars
