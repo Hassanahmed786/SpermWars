@@ -9,6 +9,15 @@ import next from "next";
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "0.0.0.0";
 const port = parseInt(process.env.PORT || "3000", 10);
+const allowedOrigins = [
+  "https://spermwars.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://localhost:3000",
+  "https://localhost:3001",
+  "https://spermwars.onrender.com",
+  "http://spermwars.onrender.com",
+];
 
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
@@ -33,8 +42,16 @@ app.prepare().then(async () => {
     const io = new SocketIOServer(server, {
       path: "/api/socketio",
       cors: {
-        origin: "*",
+        origin: (origin, callback) => {
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+            return;
+          }
+
+          callback(new Error(`Origin ${origin} not allowed by CORS`));
+        },
         methods: ["GET", "POST"],
+        credentials: true,
       },
     });
 
